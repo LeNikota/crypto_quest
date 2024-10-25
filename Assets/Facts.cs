@@ -7,39 +7,6 @@ using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
 
-class Question
-{
-    public string QuestionText;
-    private List<string> Answers;
-    
-    // The first answer in the list is correct one
-    public Question(string questionText, List<string> answers)
-    {
-        QuestionText = questionText;
-        Answers = answers;
-    }
-
-    public List<string> GiveQuestion() {
-        System.Random random_number_generator = new System.Random();
-        List<string> questions = new List<string>();
-        int size = 4;
-
-        while (size > 0)
-        {
-            int index = random_number_generator.Next(size--);
-            questions.Add(Answers[index]);
-            Answers.RemoveAt(index);
-        }
-
-        return questions;
-    }
-
-    public bool CheckAnswer(string answer) {
-        return Answers[0] == answer;
-    }
-}
-
-
 public class Facts : MonoBehaviour
 {
     public TextMeshProUGUI questionDisplay;

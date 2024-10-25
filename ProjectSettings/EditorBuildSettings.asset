@@ -8,10 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main menu.unity
     guid: 429e11110b38539d09d94f864f4e37ad
-  - enabled: 0
-    path: Assets/Scenes/Open world.unity
-    guid: 397d2353461a22d96aa58ba9f304cc9e
   - enabled: 1
-    path: Assets/Levels/Encryption basics/Encryption basics.unity
+    path: Assets/Encryption basics.unity
     guid: ce61b813bce220357b729bed4688eff5
+  - enabled: 1
+    path: Assets/Quiz.unity
+    guid: 257626c20297b8b03b38b90b4448b05d
+  - enabled: 1
+    path: Assets/Facts.unity
+    guid: b253f0006f9fb31fcb5d48afb2d40f09
+  - enabled: 0
+    path: Assets/For future use (ignore)/Open world.unity
+    guid: 397d2353461a22d96aa58ba9f304cc9e
   m_configObjects: {}
