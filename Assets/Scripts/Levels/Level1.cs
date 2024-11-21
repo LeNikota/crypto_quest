@@ -67,15 +67,14 @@ public class Level1 : MonoBehaviour
         }
     }
 
-    private void LoadNextLevel()
-    {
-        SceneManager.LoadScene("Level2");
-    }
-
     private void StartAgain()
     {
         questionAsker.Show();
         notification.Show(false);
         Reset();
+    }
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene("Level2");
     }
 }
