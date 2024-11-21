@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main menu.unity
     guid: 429e11110b38539d09d94f864f4e37ad
   - enabled: 1
-    path: Assets/Scenes/Caesar.unity
+    path: Assets/Scenes/Level1.unity
     guid: ce61b813bce220357b729bed4688eff5
   - enabled: 1
     path: Assets/Quiz.unity

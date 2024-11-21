@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class QuestionAsker : MonoBehaviour
 {
@@ -14,21 +14,19 @@ public class QuestionAsker : MonoBehaviour
 
 
 
-    public void DisplayQuestion(string question, string[] answers)
+    public void DisplayQuestion(string question, List<string> answers)
     {
-        display.text = question;
-
-        List<string> answersList = new List<string>(answers);
+        List<string> answersCopy = new List<string>(answers.Select(answer => string.Copy(answer)));
         for (int i = 0; i < 4; i++)
         {
-
-            int j = UnityEngine.Random.Range(0, answersList.Count - 1);
-            string answer = answersList[j];
+            int j = UnityEngine.Random.Range(0, answers.Count);
+            string answer = answers[j];
             answerButtonsText[i].text = answer;
             answerButtons[i].onClick.RemoveAllListeners();
             answerButtons[i].onClick.AddListener(() => handleAnswerClick(answer));
-            answersList.RemoveAt(j);
+            answers.RemoveAt(j);
         }
+        display.text = question;
     }
 
     public void SetAnswerClickHandler(Action<string> buttonHandler)
@@ -36,12 +34,8 @@ public class QuestionAsker : MonoBehaviour
         handleAnswerClick = buttonHandler;
     }
 
-    public void Hide()
+    public void Show(bool state = true)
     {
-        gameObject.SetActive(false);
-    }
-    public void Show()
-    {
-        gameObject.SetActive(true);
+        gameObject.SetActive(state);
     }
 }

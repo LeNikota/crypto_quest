@@ -1,51 +1,81 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.CodeDom.Compiler;
 
 public class Level1 : MonoBehaviour
 {
     [SerializeField] private QuestionAsker questionAsker;
     [SerializeField] private Notification notification;
 
+    private Caesar caesar = new Caesar();
+
+    private string[] messages = {
+        "Дошел шестой легион.",
+        "Враг на подходе, готовьтесь к бою!",
+        "Мы должны укрепить наши позиции.",
+        "Слухи о восстании требуют нашего внимания.",
+        "Победа будет за нами, если мы будем едины.",
+        "Не забывайте о своих товарищах на поле боя."
+    };
+    string correctKey;
+    string message;
+
     void Start()
     {
-        StartGame();
+        Reset();
     }
 
-    private void StartGame()
+    private void Reset()
     {
-        // Example question and answers
-        string question = "What is the capital of France?";
-        string[] answers = { "Berlin", "Madrid", "Paris", "Rome" };
+        List<string> keys = GeneratedKeys();
+        correctKey = keys[0];
+        message = messages[Random.Range(0, messages.Length)];
+        string encryptedMessage = caesar.Encrypt(message, int.Parse(correctKey));
 
-        // Display the question
-        questionAsker.DisplayQuestion(question, answers);
-
-        // Set the answer click handler
+        questionAsker.DisplayQuestion(encryptedMessage, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
+    }
+
+    private List<string> GeneratedKeys()
+    {
+        List<string> keys = new List<string>();
+        for (int i = 0; i < 4; i++)
+        {
+            // do-while is used to avoid repetition in answers
+            string currentKey;
+            do
+            {
+                currentKey = Random.Range(1, 32).ToString();
+            } while (keys.Contains(currentKey));
+            keys.Add(currentKey);
+        }
+
+        return keys;
     }
 
     private void HandleAnswerClick(string answer)
     {
-        // Logic to handle the answer click
-        if (answer == "Paris")
+        questionAsker.Show(false);
+        if (answer == correctKey)
         {
-            notification.Notify("Correct!", "Next Question", HandleNextQuestion);
+            notification.Notify($"Правильно!\n Ключ {correctKey}\n Сообщение: {message} ", "Далее", LoadNextLevel);
         }
         else
         {
-            notification.Notify("Incorrect! Try again.", "Retry", () => { /* Optionally retry logic */ });
+            notification.Notify($"Неправильно!\n Ключ {correctKey}\n Сообщение: {message} ", "Снова", StartAgain);
         }
     }
 
-    private void HandleNextQuestion()
+    private void LoadNextLevel()
     {
-        // Logic to load the next question
-        // For example, you could call StartGame() again with new questions
+        SceneManager.LoadScene("Level2");
     }
 
-    // TODO: Separate this functionality into another class, like pause menu
-    public void LoadMenu()
+    private void StartAgain()
     {
-        SceneManager.LoadScene(0);
+        questionAsker.Show();
+        notification.Show(false);
+        Reset();
     }
 }
