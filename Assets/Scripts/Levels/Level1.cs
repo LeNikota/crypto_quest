@@ -1,35 +1,41 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.CodeDom.Compiler;
+using System.Text.RegularExpressions;
 
 public class Level1 : BaseAskAnswerLevel
 {
     protected override void Reset()
     {
-        List<string> keys = GeneratedKeys();
-        correctKey = keys[0];
-        message = Messages.Get();
-        string encryptedMessage = Caesar.Encrypt(message, int.Parse(correctKey));
+        List<string> words = GenerateWords();
+        message  = words[0];
+        correctKey = words[0];
+        string encodedMessage = MorseCode.Encode(message);
 
-        questionAsker.DisplayQuestion(encryptedMessage, keys);
+        questionAsker.DisplayQuestion(encodedMessage, words);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
-    private List<string> GeneratedKeys()
+    private List<string> GenerateWords()
     {
-        List<string> keys = new List<string>();
+        List<string> words = new List<string>();
+
         for (int i = 0; i < 4; i++)
         {
-            string currentKey;
+            string word;
             do
             {
-                currentKey = Random.Range(1, 32).ToString();
-            } while (keys.Contains(currentKey));
-            keys.Add(currentKey);
+                string[] sentence = Regex.Replace(Messages.Get(), @"[^\w\s]", "").Split();
+
+                int j = Random.Range(0, sentence.Length);
+                word = sentence[j];
+                
+            } while (words.Contains(word) || word.Length < 7);
+
+            words.Add(char.ToUpper(word[0]) + word[1..].ToLower());
         }
 
-        return keys;
+        return words;
     }
 
     protected override void LoadNextLevel()
