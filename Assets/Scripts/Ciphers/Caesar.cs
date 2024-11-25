@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Caesar : MonoBehaviour
 {
-  private char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
+  private static char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
 
-  public string Encrypt(string message, int key)
+  public static string Encrypt(string message, int key)
   {
     string encryptedMessage = "";
 
@@ -27,7 +27,7 @@ public class Caesar : MonoBehaviour
     return encryptedMessage;
   }
 
-  public string Decrypt(string message, int key)
+  public static string Decrypt(string message, int key)
   {
     string decryptedMessage = "";
 

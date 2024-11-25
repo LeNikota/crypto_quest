@@ -2,21 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-public class Level2 : MonoBehaviour
+public class Level2 : BaseAskAnswerLevel
 {
-    [SerializeField] private QuestionAsker questionAsker;
-    [SerializeField] private Notification notification;
-
-    private Vigenere vigenere = new Vigenere(); // Change to Vigenere
-
-    private string[] messages = {
-        "Дошел шестой легион.",
-        "Враг на подходе, готовьтесь к бою!",
-        "Мы должны укрепить наши позиции.",
-        "Слухи о восстании требуют нашего внимания.",
-        "Победа будет за нами, если мы будем едины.",
-        "Не забывайте о своих товарищах на поле боя."
-    };
     private string[] keys = {
         "Сила",
         "Мудрость",
@@ -55,20 +42,12 @@ public class Level2 : MonoBehaviour
         "Эволюция"
     };
 
-    private string correctKey;
-    private string message;
-
-    void Start()
-    {
-        Reset();
-    }
-
-    private void Reset()
+    protected override void Reset()
     {
         List<string> keys = GeneratedKeys();
-        correctKey = keys[0]; // Use the first key as the correct key
-        message = messages[Random.Range(0, messages.Length)];
-        string encryptedMessage = vigenere.Encrypt(message, correctKey); // Use Vigenere encryption
+        correctKey = keys[0];
+        message = Messages.Get();
+        string encryptedMessage = Vigenere.Encrypt(message, correctKey);
 
         questionAsker.DisplayQuestion(encryptedMessage, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
@@ -91,32 +70,8 @@ public class Level2 : MonoBehaviour
         return selectedKeys;
     }
 
-
-    private void HandleAnswerClick(string answer)
-    {
-        questionAsker.Show(false);
-        if (answer == correctKey)
-        {
-            notification.Notify($"Правильно!\n Ключ: {correctKey}\n Сообщение: {message} ", "Далее", LoadNextLevel);
-        }
-        else
-        {
-            notification.Notify($"Неправильно!\n Ключ: {correctKey}\n Сообщение: {message} ", "Снова", StartAgain);
-        }
-    }
-
-    private void StartAgain()
-    {
-        questionAsker.Show();
-        notification.Show(false);
-        Reset();
-    }
-
-    private void LoadNextLevel()
+    protected override void LoadNextLevel()
     {
         SceneManager.LoadScene("Main menu");
-        // SceneManager.LoadScene("Level3");
     }
 }
-
-// TODO: Make so the level123.. code is not repeated, make it into one script and just add gameManager or something

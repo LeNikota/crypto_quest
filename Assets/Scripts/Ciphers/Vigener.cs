@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Vigenere : MonoBehaviour
 {
-    private char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
+    private static char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
 
-    public string Encrypt(string message, string keyword)
+    public static string Encrypt(string message, string keyword)
     {
         string encryptedMessage = "";
         keyword = keyword.ToLower(); // Ensure the keyword is in lowercase
@@ -33,7 +33,7 @@ public class Vigenere : MonoBehaviour
         return encryptedMessage;
     }
 
-    public string Decrypt(string message, string keyword)
+    public static string Decrypt(string message, string keyword)
     {
         string decryptedMessage = "";
         keyword = keyword.ToLower(); // Ensure the keyword is in lowercase
