@@ -12,6 +12,10 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(level);
     }
 
+    public void LoadLevel(string name){
+        SceneManager.LoadSceneAsync(name);
+    }
+
     public void QuitGame(){
         Application.Quit();
     }

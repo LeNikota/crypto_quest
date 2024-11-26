@@ -9,13 +9,19 @@ EditorBuildSettings:
     path: Assets/Scenes/Main menu.unity
     guid: 429e11110b38539d09d94f864f4e37ad
   - enabled: 1
-    path: Assets/Encryption basics.unity
+    path: Assets/Scenes/Level1.unity
     guid: ce61b813bce220357b729bed4688eff5
   - enabled: 1
-    path: Assets/Quiz.unity
+    path: Assets/Scenes/Level2.unity
+    guid: 029612c4ea181657f861fd8354ad856b
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: d68b40cafee5cbe90acdc8a61213361a
+  - enabled: 1
+    path: Assets/Scenes/Quiz.unity
     guid: 257626c20297b8b03b38b90b4448b05d
   - enabled: 1
-    path: Assets/Facts.unity
+    path: Assets/Scenes/Facts.unity
     guid: b253f0006f9fb31fcb5d48afb2d40f09
   - enabled: 0
     path: Assets/For future use (ignore)/Open world.unity

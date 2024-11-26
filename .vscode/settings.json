@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "My unity project.sln"
+    "dotnet.defaultSolution": "Crypto quest - Unity.sln"
 }
