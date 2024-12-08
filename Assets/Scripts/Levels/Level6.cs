@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public class LevelAtbash : BaseAskAnswerLevel
+public class Level6 : BaseAskAnswerLevel
 {
     private string[] keys = {
         "Сила", "Мудрость", "Свобода", "Дружба", "Сингулярность",
