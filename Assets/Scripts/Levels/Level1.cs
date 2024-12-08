@@ -42,6 +42,7 @@ public class Level1 : BaseAskAnswerLevel
 
     protected override void LoadNextLevel()
     {
-        SceneManager.LoadScene("Level2");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 }

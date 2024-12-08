@@ -49,7 +49,7 @@ public class Level3 : BaseAskAnswerLevel
         message = Messages.Get();
         string encryptedMessage = Vigenere.Encrypt(message, correctKey);
 
-        string question = "Расшифровать сообщение (шифр Виженера)\n" + encryptedMessage;
+        string question = "Расшифровать сообщение (Виженера)\n" + encryptedMessage;
 
         questionAsker.DisplayQuestion(question, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
@@ -74,6 +74,7 @@ public class Level3 : BaseAskAnswerLevel
 
     protected override void LoadNextLevel()
     {
-        SceneManager.LoadScene("Main menu");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 }
