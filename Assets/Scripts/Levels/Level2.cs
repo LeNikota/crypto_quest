@@ -12,7 +12,9 @@ public class Level2 : BaseAskAnswerLevel
         message = Messages.Get();
         string encryptedMessage = Caesar.Encrypt(message, int.Parse(correctKey));
 
-        questionAsker.DisplayQuestion(encryptedMessage, keys);
+        string question = "Расшифровать сообщение (шифр Цезаря)\n" + encryptedMessage;
+
+        questionAsker.DisplayQuestion(question, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 

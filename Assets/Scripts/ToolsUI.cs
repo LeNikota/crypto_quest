@@ -16,8 +16,12 @@ public class ToolsUI : MonoBehaviour
 
     public void Toggle()
     {
-        toolPanel.SetActive(!toolPanel.activeSelf);
-        canvasGroup.blocksRaycasts = toolPanel.activeSelf;
+        bool isActive = !canvasGroup.blocksRaycasts;
+
+        canvasGroup.blocksRaycasts = isActive;
+        canvasGroup.interactable = isActive;
+        canvasGroup.blocksRaycasts = isActive;
+        canvasGroup.alpha = isActive ? 1 : 0;
     }
 
     public void OnValueChanged(string input)

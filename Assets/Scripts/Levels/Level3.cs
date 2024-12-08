@@ -49,7 +49,9 @@ public class Level3 : BaseAskAnswerLevel
         message = Messages.Get();
         string encryptedMessage = Vigenere.Encrypt(message, correctKey);
 
-        questionAsker.DisplayQuestion(encryptedMessage, keys);
+        string question = "Расшифровать сообщение (шифр Виженера)\n" + encryptedMessage;
+
+        questionAsker.DisplayQuestion(question, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
