@@ -16,9 +16,10 @@ public class Level5 : BaseAskAnswerLevel
             message = string.Join(" ", words.Take(3));
         }
             
-        List<string> keys = GenerateRandomKeys(message.Length); 
+        List<string> keys = GenerateKeys(message.Length); 
+        correctKey = keys[0];
 
-        string encryptedMessage = Vernam.Encrypt(message, keys[0]); 
+        string encryptedMessage = Vernam.Encrypt(message, correctKey); 
 
         string question = "Расшифровать сообщение (Шифр Вернама)\n" + encryptedMessage; 
 
@@ -26,7 +27,7 @@ public class Level5 : BaseAskAnswerLevel
         questionAsker.SetAnswerClickHandler(HandleAnswerClick); 
     }
 
-    private List<string> GenerateRandomKeys(int length)
+    private List<string> GenerateKeys(int length)
     {
         List<string> keys = new List<string>();
         for (int k = 0; k < 4; k++)
