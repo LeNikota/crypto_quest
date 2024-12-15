@@ -1,6 +1,5 @@
-using System;
 using System.Linq;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,20 +7,43 @@ public class Quiz : MonoBehaviour
 {
     [SerializeField] QuestionAsker questionAsker;
     [SerializeField] Notification notification;
+    [SerializeField] ConfirmationDialog dialog;
+
+    [SerializeField] GameObject timerDisplay;
+    [SerializeField] TextMeshProUGUI timerText;
+
+    bool limitByTime = false;
+    float timer = 30f;
 
     int questionCount = 0;
+    int correctAnswerCount = 0;
     string question;
     string correctAnswer;
 
     void Start()
     {
-        ResetQuiz();
+        dialog.Show("Ограничить тест по времени?", HandleDialogButtonClick);
     }
 
-    void LoadNextQuestion(){
-        if(questionCount >= 5)
-            SceneManager.LoadScene("Main menu");
+    void Update()
+    {
+        if (!limitByTime)
+            return;
 
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            timerText.text = ((int)timer).ToString();
+            return;
+        }
+
+        questionAsker.Show(false);
+        timerDisplay.SetActive(false);
+        notification.Notify($"Время вышло!\n\nБыло дано {correctAnswerCount} правильных ответов", "Меню", () => SceneManager.LoadScene("Main menu"));
+    }
+
+    void LoadNextQuestion()
+    {
         questionCount++;
 
         QuizQuestions.Get(out string question, out string[] answers);
@@ -42,6 +64,7 @@ public class Quiz : MonoBehaviour
                 $"Ответ правильный!\n\n{question}\n\n{correctAnswer}",
                 "Далее", ResetQuiz
             );
+            correctAnswerCount++;
         }
         else
         {
@@ -52,10 +75,28 @@ public class Quiz : MonoBehaviour
         }
     }
 
+    void HandleDialogButtonClick(bool state)
+    {
+        ResetQuiz();
+        if (!state)
+            return;
+
+        limitByTime = true;
+        timerDisplay.SetActive(true);
+    }
+
     void ResetQuiz()
     {
-        questionAsker.Show();
+        if (questionCount >= 5)
+        {
+            timerDisplay.SetActive(false);
+            questionAsker.Show(false);
+            notification.Notify($"Вопросы закончились!\n\nБыло дано {correctAnswerCount} правильных ответов", "Меню", () => SceneManager.LoadScene("Main menu"));
+            return;
+        }
+
         notification.Show(false);
+        questionAsker.Show();
         LoadNextQuestion();
     }
 }
