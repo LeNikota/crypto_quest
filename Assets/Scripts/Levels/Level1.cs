@@ -12,7 +12,9 @@ public class Level1 : BaseAskAnswerLevel
         correctKey = words[0];
         string encodedMessage = MorseCode.Encode(message);
 
-        questionAsker.DisplayQuestion(encodedMessage, words);
+        string question = "Расшифровать сообщение (код морзе)\n" + encodedMessage;
+
+        questionAsker.DisplayQuestion(question, words);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
@@ -40,6 +42,7 @@ public class Level1 : BaseAskAnswerLevel
 
     protected override void LoadNextLevel()
     {
-        SceneManager.LoadScene("Level2");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 }

@@ -12,7 +12,9 @@ public class Level2 : BaseAskAnswerLevel
         message = Messages.Get();
         string encryptedMessage = Caesar.Encrypt(message, int.Parse(correctKey));
 
-        questionAsker.DisplayQuestion(encryptedMessage, keys);
+        string question = "Расшифровать сообщение (Цезаря)\n" + encryptedMessage;
+
+        questionAsker.DisplayQuestion(question, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
@@ -32,8 +34,9 @@ public class Level2 : BaseAskAnswerLevel
         return keys;
     }
 
-    protected override void LoadNextLevel()
+        protected override void LoadNextLevel()
     {
-        SceneManager.LoadScene("Level3");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 }

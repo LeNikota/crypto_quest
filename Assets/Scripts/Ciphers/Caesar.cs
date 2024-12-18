@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-public class Caesar : MonoBehaviour
+public static class Caesar
 {
   private static char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
 
