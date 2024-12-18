@@ -11,9 +11,7 @@ public static class Vernam
     public static string Encrypt(string message, string key)
     {
         if (message.Length != key.Length)
-        {
-            throw new ArgumentException("The key must be the same length as the message.");
-        }
+            return message;
 
         StringBuilder encryptedMessage = new StringBuilder();
 
@@ -29,9 +27,7 @@ public static class Vernam
     public static string Decrypt(string encryptedMessage, string key)
     {
         if (encryptedMessage.Length != key.Length)
-        {
-            throw new ArgumentException("The key must be the same length as the encrypted message.");
-        }
+            return encryptedMessage;
 
         StringBuilder decryptedMessage = new StringBuilder();
 

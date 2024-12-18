@@ -6,6 +6,9 @@ public static class Caesar
 
   public static string Encrypt(string message, int key)
   {
+    if(key < 1 || key > 32)
+      return message;
+
     string encryptedMessage = "";
 
     foreach (char c in message)
@@ -28,6 +31,9 @@ public static class Caesar
 
   public static string Decrypt(string message, int key)
   {
+    if(key < 1 || key > 32)
+      return message;
+
     string decryptedMessage = "";
 
     foreach (char c in message)

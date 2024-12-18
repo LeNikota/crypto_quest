@@ -14,33 +14,31 @@ public class ToolsUI : MonoBehaviour
     [SerializeField] TMP_InputField inputKey;
 
     Action<string> cypherButtonClickHandler;
-    Action<string> inputTextChangedHandler;
-    Action<string> inputKeyChangedHandler;
+    Action<string, string> valueChangedHandler;
+
     public Action<string> CypherButtonClickHandler
     {
         get => cypherButtonClickHandler;
         set => cypherButtonClickHandler = value;
     }
-    public Action<string> InputTextChangedHandler
+    public Action<string, string> ValueChangedHandler 
     {
-        get => inputTextChangedHandler;
-        set => inputTextChangedHandler = value;
+        get => valueChangedHandler;
+        set => valueChangedHandler = value;
     }
-    public Action<string> InputKeyChangedHandler
-    {
-        get => inputKeyChangedHandler;
-        set => inputKeyChangedHandler = value;
-    }
+
 
     void Start()
     {
         Button[] buttons = scrollViewContent.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
-            button.onClick.AddListener(() => OnCypherButtonClick(button.name));
+            button.onClick.AddListener(() => cypherButtonClickHandler?.Invoke(button.name));
 
-        inputText.onValueChanged.AddListener(OnInputTextChanged);
-        inputKey.onValueChanged.AddListener(OnInputKeyChanged);
+        inputText.onValueChanged.AddListener((input) => valueChangedHandler?.Invoke(input,"text"));
+        inputKey.onValueChanged.AddListener((input) => valueChangedHandler?.Invoke(input, "key"));
 
+        // Clear test text
+        display.text = "";
     }
 
     public void Toggle()
@@ -53,23 +51,13 @@ public class ToolsUI : MonoBehaviour
         canvasGroup.alpha = isActive ? 1 : 0;
     }
 
-    public void OnCypherButtonClick(string input)
+    public void Display(string originalMessage, string alteredMessage, string key)
     {
-        cypherButtonClickHandler?.Invoke(input);
-    }
-
-    public void OnInputTextChanged(string input)
-    {
-        inputTextChangedHandler?.Invoke(input);
-    }
-
-    public void OnInputKeyChanged(string input)
-    {
-        inputKeyChangedHandler?.Invoke(input);
+        display.text = $"Оригинал: {originalMessage}\nЗашифрованый текст: {alteredMessage}\nКлюч: {key}";
     }
 
     public void Display(string originalMessage, string alteredMessage)
     {
-        display.text = $"{originalMessage}\n\n{alteredMessage}";
+        display.text = $"Оригинал: {originalMessage}\nЗашифрованый текст: {alteredMessage}";
     }
 }

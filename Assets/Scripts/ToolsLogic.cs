@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -5,42 +6,107 @@ class ToolsLogic : MonoBehaviour
 {
     [SerializeField] ToolsUI toolsUI;
 
-    void Start(){
+    Action selectedTool = null;
+
+    string text;
+    string key;
+
+    void Start()
+    {
         toolsUI.CypherButtonClickHandler = HandelCypherButtonClick;
+        toolsUI.ValueChangedHandler = HandleValueChanged;
     }
 
     void HandelCypherButtonClick(string cypher)
     {
         switch (cypher)
         {
-            case "Caesar":
+            case "Morse":
+                selectedTool = DecryptMorse;
                 break;
-            // case "":
-            //     break;
-            // case "":
-            //     break;
+            case "Caesar":
+                selectedTool = DecryptCaesar;
+                break;
+            case "Vigenere":
+                selectedTool = DecryptVigenere;
+                break;
+            case "Trithemius":
+                selectedTool = DecryptTrithemius;
+                break;
+            case "Vernam":
+                selectedTool = DecryptVernam;
+                break;
+            case "Atbash":
+                selectedTool = DecryptAtbash;
+                break;
         }
+    }
 
-        // display.text = "";
+    void HandleValueChanged(string input, string type)
+    {
+        if (type == "text") text = input;
+        else key = input;
 
-        // char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
+        selectedTool?.Invoke();
+    }
 
-        // foreach (var c in alphabet)
-        // {
-        //     display.text += c + " ";
-        // }
+    void DecryptCaesar()
+    {
+        if (!int.TryParse(key, out int shift))
+            return;
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(key))
+            return;
 
-        // if (string.IsNullOrEmpty(input) || !int.TryParse(input, out int shift))
-        //     return;
-        // if(shift > 32)
-        //     return;
+        string result = Caesar.Decrypt(text, shift);
+        toolsUI.Display(text, result, key);
+    }
 
+    void DecryptMorse()
+    {
+        if (string.IsNullOrEmpty(text))
+            return;
 
-        // display.text += "\n";
-        // for (int i = 0; i < alphabet.Length; i++)
-        // {
-        //     int new_i = (i - shift + alphabet.Length) % alphabet.Length;
-        //     display.text += alphabet[new_i] + " ";
-        // }
+        string result = MorseCode.Decode(text);
+        toolsUI.Display(text, result);
+    }
+
+    void DecryptVigenere()
+    {
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(key))
+            return;
+
+        string result = Vigenere.Decrypt(text, key);
+        toolsUI.Display(text, result, key);
+    }
+
+    void DecryptTrithemius()
+    {
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(key))
+            return;
+
+        Func<int, int> shiftFunction = Trithemius.GetShiftFunction(key);
+        if (shiftFunction == null)
+            return;
+
+        string result = Trithemius.Decrypt(text, shiftFunction);
+        toolsUI.Display(text, result, key);
+    }
+
+    void DecryptVernam()
+    {
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(key))
+            return;
+
+        string result = Vernam.Decrypt(text, key);
+        toolsUI.Display(text, result, key);
+    }
+
+    void DecryptAtbash()
+    {
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        string result = Atbash.Decrypt(text);
+        toolsUI.Display(text, result);
     }
 }
