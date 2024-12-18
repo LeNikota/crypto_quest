@@ -1,17 +1,46 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ToolsUI : MonoBehaviour
 {
-    [SerializeField] GameObject toolPanel;
     [SerializeField] CanvasGroup canvasGroup;
-    [SerializeField] TextMeshProUGUI display;
-    [SerializeField] TMP_InputField input;
+    [SerializeField] GameObject scrollViewContent;
 
-    void Start(){
-        OnValueChanged("");
-        input.onValueChanged.AddListener(OnValueChanged);
+    [SerializeField] TextMeshProUGUI display;
+    [SerializeField] TMP_InputField inputText;
+    [SerializeField] TMP_InputField inputKey;
+
+    Action<string> cypherButtonClickHandler;
+    Action<string> inputTextChangedHandler;
+    Action<string> inputKeyChangedHandler;
+    public Action<string> CypherButtonClickHandler
+    {
+        get => cypherButtonClickHandler;
+        set => cypherButtonClickHandler = value;
+    }
+    public Action<string> InputTextChangedHandler
+    {
+        get => inputTextChangedHandler;
+        set => inputTextChangedHandler = value;
+    }
+    public Action<string> InputKeyChangedHandler
+    {
+        get => inputKeyChangedHandler;
+        set => inputKeyChangedHandler = value;
+    }
+
+    void Start()
+    {
+        Button[] buttons = scrollViewContent.GetComponentsInChildren<Button>();
+        foreach (var button in buttons)
+            button.onClick.AddListener(() => OnCypherButtonClick(button.name));
+
+        inputText.onValueChanged.AddListener(OnInputTextChanged);
+        inputKey.onValueChanged.AddListener(OnInputKeyChanged);
+
     }
 
     public void Toggle()
@@ -24,28 +53,23 @@ public class ToolsUI : MonoBehaviour
         canvasGroup.alpha = isActive ? 1 : 0;
     }
 
-    public void OnValueChanged(string input)
+    public void OnCypherButtonClick(string input)
     {
-        display.text = "";
+        cypherButtonClickHandler?.Invoke(input);
+    }
 
-        char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
+    public void OnInputTextChanged(string input)
+    {
+        inputTextChangedHandler?.Invoke(input);
+    }
 
-        foreach (var c in alphabet)
-        {
-            display.text += c + " ";
-        }
+    public void OnInputKeyChanged(string input)
+    {
+        inputKeyChangedHandler?.Invoke(input);
+    }
 
-        if (string.IsNullOrEmpty(input) || !int.TryParse(input, out int shift))
-            return;
-        if(shift > 32)
-            return;
-
-
-        display.text += "\n";
-        for (int i = 0; i < alphabet.Length; i++)
-        {
-            int new_i = (i - shift + alphabet.Length) % alphabet.Length;
-            display.text += alphabet[new_i] + " ";
-        }
+    public void Display(string originalMessage, string alteredMessage)
+    {
+        display.text = $"{originalMessage}\n\n{alteredMessage}";
     }
 }
