@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public static class Caesar
 {
@@ -6,7 +7,7 @@ public static class Caesar
 
   public static string Encrypt(string message, int key)
   {
-    if(key < 1 || key > 32)
+    if (key < 1 || key > 32)
       return message;
 
     string encryptedMessage = "";
@@ -31,7 +32,7 @@ public static class Caesar
 
   public static string Decrypt(string message, int key)
   {
-    if(key < 1 || key > 32)
+    if (key < 1 || key > 32)
       return message;
 
     string decryptedMessage = "";
@@ -53,4 +54,28 @@ public static class Caesar
 
     return decryptedMessage;
   }
+
+  public static List<string> GetKeys(int amount)
+  {
+    if (amount > 31)
+      return new List<string>();
+
+    List<string> keys = new List<string>();
+    int attempts = 0;
+
+    while (keys.Count < amount && attempts < 1000)
+    {
+      string currentKey = UnityEngine.Random.Range(1, 32).ToString();
+
+      if (!keys.Contains(currentKey))
+      {
+        keys.Add(currentKey);
+      }
+
+      attempts++;
+    }
+
+    return keys;
+  }
+
 }

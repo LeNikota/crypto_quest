@@ -93,8 +93,9 @@ static class Trithemius
 
         Dictionary<string, Func<int, int>> selectedKeys = new();
         HashSet<int> selectedIndices = new HashSet<int>();
+        int attempts = 0;
 
-        while (selectedKeys.Count < amount)
+        while (selectedKeys.Count < amount && attempts < 1000)
         {
             int index = UnityEngine.Random.Range(0, shiftFunctions.Count);
             if (!selectedIndices.Contains(index))
@@ -103,6 +104,8 @@ static class Trithemius
                 selectedKeys.Add(kvp.Key, kvp.Value);
                 selectedIndices.Add(index);
             }
+
+            attempts++;
         }
 
         return selectedKeys;

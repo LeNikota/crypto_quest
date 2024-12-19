@@ -1,11 +1,13 @@
-using System;
+using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 public static class Vernam
 {
-    
-    private const int RussianCharStart = 1040; 
-    private const int RussianCharEnd = 1103;   
+
+    private static readonly string alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+    private const int RussianCharStart = 1040;
+    private const int RussianCharEnd = 1103;
     private const int RussianCharCount = RussianCharEnd - RussianCharStart + 1;
 
     public static string Encrypt(string message, string key)
@@ -57,11 +59,37 @@ public static class Vernam
             int decryptedValue = (encryptedChar - RussianCharStart - (keyChar - RussianCharStart) + RussianCharCount) % RussianCharCount + RussianCharStart;
             return (char)decryptedValue;
         }
-        return encryptedChar; 
+        return encryptedChar;
     }
 
     private static bool IsRussianChar(char c)
     {
         return c >= RussianCharStart && c <= RussianCharEnd;
+    }
+
+    public static string GetMessage()
+    {
+        string message = Messages.Get();
+        string[] words = message.Split(new[] { ' ', '\t', '\n' });
+
+        if (words.Length > 3)
+            message = string.Join(" ", words.Take(3));
+
+        return message;
+    }
+
+    public static List<string> GetKeys(int amount, int messageLength)
+    {
+        List<string> keys = new();
+        for (int k = 0; k < 4; k++)
+        {
+            string key = "";
+            for (int i = 0; i < messageLength; i++)
+            {
+                key += alphabet[UnityEngine.Random.Range(0, alphabet.Length)];
+            }
+            keys.Add(key);
+        }
+        return keys;
     }
 }
