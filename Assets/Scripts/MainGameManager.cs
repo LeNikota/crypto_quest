@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System;
 using System.Linq;
-using UnityEditor.VersionControl;
 
 public class LevelManager : MonoBehaviour
 {
@@ -22,6 +20,8 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         levels = new Action[] { null, Level1, Level2, Level3, Level4, Level5, Level6 };
+        
+        level = PlayerPrefs.GetInt("Level");
         LoadLevel(level);
     }
 
