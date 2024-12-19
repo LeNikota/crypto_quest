@@ -34,9 +34,8 @@ public class LevelManager : MonoBehaviour
         correctAnswer = words[0];
 
         string encodedMessage = MorseCode.Encode(message);
-        string question = "Расшифровать сообщение (код морзе)\n" + encodedMessage;
 
-        questionAsker.DisplayQuestion(question, words);
+        questionAsker.DisplayQuestion("Декодируй код морзе", encodedMessage, words);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
     // Caeser
@@ -47,9 +46,8 @@ public class LevelManager : MonoBehaviour
 
         message = Messages.Get();
         string encryptedMessage = Caesar.Encrypt(message, int.Parse(correctAnswer));
-        string question = "Расшифровать сообщение (Цезаря)\n" + encryptedMessage;
 
-        questionAsker.DisplayQuestion(question, keys);
+        questionAsker.DisplayQuestion("Расшифруй шифр Цезаря", encryptedMessage, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
     // Vigener
@@ -60,9 +58,8 @@ public class LevelManager : MonoBehaviour
 
         message = Messages.Get();
         string encryptedMessage = Vigenere.Encrypt(message, correctAnswer);
-        string question = "Расшифровать сообщение (Виженера)\n" + encryptedMessage;
 
-        questionAsker.DisplayQuestion(question, keys);
+        questionAsker.DisplayQuestion("Расшифруй шифр Виженера", encryptedMessage, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
     // Trithemius
@@ -74,9 +71,8 @@ public class LevelManager : MonoBehaviour
 
         message = Messages.Get();
         string encryptedMessage = Trithemius.Encrypt(message, shiftFunction);
-        string question = "Расшифровать сообщение (Тритемий)\n" + encryptedMessage;
 
-        questionAsker.DisplayQuestion(question, keys.Keys.ToList());
+        questionAsker.DisplayQuestion("Расшифруй шифр Тритемий", encryptedMessage, keys.Keys.ToList());
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
     // Vernam
@@ -88,9 +84,8 @@ public class LevelManager : MonoBehaviour
         correctAnswer = keys[0];
 
         string encryptedMessage = Vernam.Encrypt(message, correctAnswer);
-        string question = "Расшифровать сообщение (Шифр Вернама)\n" + encryptedMessage;
 
-        questionAsker.DisplayQuestion(question, keys);
+        questionAsker.DisplayQuestion("Расшифруй шифр Вернама", encryptedMessage, keys);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
     // Atbash
@@ -100,8 +95,8 @@ public class LevelManager : MonoBehaviour
         correctAnswer = answers[0];
 
         string encryptedMessage = Atbash.Encrypt(correctAnswer);
-        string question = "Расшифровать сообщение (Атбаш)\n" + encryptedMessage;
-        questionAsker.DisplayQuestion(question, answers);
+
+        questionAsker.DisplayQuestion("Расшифруй шифр Атбаш", encryptedMessage, answers);
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
