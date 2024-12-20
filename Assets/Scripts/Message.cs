@@ -1,6 +1,8 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
-public class Messages
+public static class Messages
 {
     private static string[] messages = {
         "Дошел шестой легион.",
@@ -60,8 +62,66 @@ public class Messages
         "Мы не отступим, пока не добьемся успеха."
     };
 
+    private static string[] words = {
+        "Сила",
+        "Мудрость",
+        "Свобода",
+        "Дружба",
+        "Сингулярность",
+        "Свет",
+        "Тьма",
+        "Знание",
+        "Смелость",
+        "Надежда",
+        "Любовь",
+        "Счастье",
+        "Терпение",
+        "Справедливость",
+        "Мир",
+        "Судьба",
+        "Вера",
+        "Творчество",
+        "Успех",
+        "Секрет",
+        "Гармония",
+        "Сила воли",
+        "Доброта",
+        "Тайна",
+        "Энергия",
+        "Вдохновение",
+        "Понимание",
+        "Согласие",
+        "Сострадание",
+        "Радость",
+        "Умиротворение",
+        "Стратегия",
+        "Поток",
+        "Потенциал",
+        "Эволюция"
+    };
+
     public static string Get()
     {
         return messages[Random.Range(0, messages.Length)];
+    }
+
+    public static List<string> GetWords(int amount){
+        if(words.Length < amount)
+            return new();
+
+        int attempts = 0;
+        List<string> wordList = new List<string>();
+        
+        while (wordList.Count < amount && attempts++ < 1000)
+        {
+            string word = words[Random.Range(0, words.Length)];
+
+            if (!wordList.Contains(word))
+            {
+                wordList.Add(word);
+            }
+        }
+
+        return wordList;
     }
 }

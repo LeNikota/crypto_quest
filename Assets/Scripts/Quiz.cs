@@ -47,7 +47,7 @@ public class Quiz : MonoBehaviour
         questionCount++;
 
         QuizQuestions.Get(out string question, out string[] answers);
-        questionAsker.DisplayQuestion(question, answers.ToList());
+        questionAsker.DisplayQuestion("Ответь правильно", question, answers.ToList());
         questionAsker.SetAnswerClickHandler(HandleAnswerButtonClick);
 
         this.question = question;
