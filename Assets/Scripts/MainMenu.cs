@@ -1,13 +1,12 @@
+// Класс MainMenu управляет основным меню игры.
+// Он предоставляет методы для загрузки различных сцен, таких как игра, уровни и выход из игры.
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame(){
-        SceneManager.LoadSceneAsync(1);
-    }
-
     public void LoadLevel(int level){
         SceneManager.LoadSceneAsync(level);
     }

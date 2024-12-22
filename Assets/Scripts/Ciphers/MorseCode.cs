@@ -1,8 +1,17 @@
+/*
+Этот файл содержит реализацию кодирования и декодирования сообщений в азбуке Морзе.
+Класс MorseCode предоставляет методы для преобразования текста в азбуку Морзе и обратно.
+Методы:
+- Encode: кодирует входное сообщение в азбуку Морзе, используя пробелы для разделения букв и три пробела для разделения слов.
+- Decode: декодирует сообщение из азбуки Морзе обратно в текст, используя пробелы для разделения букв и три пробела для разделения слов.
+*/
+
 using System;
 using System.Collections.Generic;
 
 public class MorseCode
 {
+    // Словарь для кодирования символов в азбуку Морзе
     private static readonly Dictionary<char, string> morseDictionary = new Dictionary<char, string>
     {
         {'А', ".-"}, {'Б', "-..."}, {'В', ".--"}, {'Г', "--."}, {'Д', "-.."},
@@ -16,8 +25,10 @@ public class MorseCode
         {'5', "....."}, {'6', "-...."}, {'7', "--..."}, {'8', "---.."}, {'9', "----."} // 0-9
     };
 
+    // Обратный словарь для декодирования азбуки Морзе в символы
     private static readonly Dictionary<string, char> reverseMorseDictionary;
 
+    // Статический конструктор для инициализации обратного словаря
     static MorseCode()
     {
         reverseMorseDictionary = new Dictionary<string, char>();
@@ -27,6 +38,7 @@ public class MorseCode
         }
     }
 
+    // Метод для кодирования сообщения в азбуку Морзе
     public static string Encode(string message)
     {
         string encodedMessage = "";
@@ -49,6 +61,7 @@ public class MorseCode
         return encodedMessage.Trim();
     }
 
+    // Метод для декодирования сообщения из азбуки Морзе
     public static string Decode(string morseMessage)
     {
         string decodedMessage = "";

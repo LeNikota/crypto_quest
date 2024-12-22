@@ -1,3 +1,8 @@
+// Класс LevelManager управляет уровнями игры, связанными с шифрованием и дешифрованием сообщений.
+// Он отвечает за инициализацию уровней, отображение вопросов игроку, обработку ответов и переход между уровнями.
+// Уровни включают различные методы шифрования, такие как шифр Морзе, шифр Цезаря, шифр Виженера, шифр Тритемия, шифр Вернама и шифр Атбаш.
+// Класс использует компоненты QuestionAsker для отображения вопросов и Notification для уведомления игрока о правильности ответов.
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
@@ -6,21 +11,21 @@ using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] QuestionAsker questionAsker; // Компонент для отображения вопросов игроку
+    [SerializeField] Notification notification; // Компонент для отображения уведомлений
 
-    [SerializeField] QuestionAsker questionAsker;
-    [SerializeField] Notification notification;
+    Action[] levels; // Массив действий, представляющих уровни
+    Action currentLevel = null; // Текущий уровень
 
-    Action[] levels;
-    Action currentLevel = null;
+    int level = 1; // Уровень, на котором находится игрок
+    string correctAnswer; // Правильный ответ на текущий вопрос
+    string message; // Сообщение, связанное с текущим вопросом
 
-    int level = 1;
-    string correctAnswer;
-    string message;
-
+    // Метод Start вызывается при инициализации объекта. Он загружает уровень из PlayerPrefs и начинает игру.
     void Start()
     {
         levels = new Action[] { null, Level1, Level2, Level3, Level4, Level5, Level6 };
-        
+
         level = PlayerPrefs.GetInt("Level");
         LoadLevel(level);
     }
@@ -100,6 +105,8 @@ public class LevelManager : MonoBehaviour
         questionAsker.SetAnswerClickHandler(HandleAnswerClick);
     }
 
+    // Метод HandleAnswerClick обрабатывает нажатие на ответ игрока.
+    // Он скрывает вопрос, проверяет правильность ответа и отображает уведомление с результатом.
     void HandleAnswerClick(string answer)
     {
         questionAsker.Show(false);
@@ -113,6 +120,7 @@ public class LevelManager : MonoBehaviour
         notification.Notify(notificationMessage, "Далее", nextAction);
     }
 
+    // Метод перезапускает текущий уровень.
     void StartAgain()
     {
         questionAsker.Show();
@@ -120,6 +128,8 @@ public class LevelManager : MonoBehaviour
         currentLevel();
     }
 
+    // Метод LoadLevel загружает уровень по указанному номеру.
+    // Если уровень вне допустимого диапазона, загружает главное меню.
     void LoadLevel(int level)
     {
         if (0 < level && level < levels.Length)

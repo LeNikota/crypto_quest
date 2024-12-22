@@ -1,3 +1,5 @@
+// Класс Quiz управляет логикой викторины, включая отображение вопросов, обработку ответов и управление временем.
+
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -5,26 +7,38 @@ using UnityEngine.SceneManagement;
 
 public class Quiz : MonoBehaviour
 {
+    // Поле для управления вопросами.
     [SerializeField] QuestionAsker questionAsker;
+    // Поле для уведомлений.
     [SerializeField] Notification notification;
+    // Поле для диалогового окна подтверждения.
     [SerializeField] ConfirmationDialog dialog;
-
+    // Поле для отображения таймера.
     [SerializeField] GameObject timerDisplay;
+    // Поле для текста таймера.
     [SerializeField] TextMeshProUGUI timerText;
 
+    // Переменная для ограничения времени.
     bool limitByTime = false;
+    
+    // Таймер для отслеживания времени.
     float timer = 30f;
 
+    // Счетчик вопросов и правильных ответов.
     int questionCount = 0;
     int correctAnswerCount = 0;
+    
+    // Переменные для текущего вопроса и правильного ответа.
     string question;
     string correctAnswer;
 
+    // Метод Start инициализирует викторину и показывает диалоговое окно.
     void Start()
     {
         dialog.Show("Ограничить тест по времени?", HandleDialogButtonClick);
     }
 
+    // Метод Update обновляет таймер и проверяет время.
     void Update()
     {
         if (!limitByTime)
@@ -42,6 +56,7 @@ public class Quiz : MonoBehaviour
         notification.Notify($"Время вышло!\n\nБыло дано {correctAnswerCount} правильных ответов", "Меню", () => SceneManager.LoadScene("Main menu"));
     }
 
+    // Метод LoadNextQuestion загружает следующий вопрос и отображает его.
     void LoadNextQuestion()
     {
         questionCount++;
@@ -55,6 +70,7 @@ public class Quiz : MonoBehaviour
         correctAnswer = answers[0];
     }
 
+    // Метод HandleAnswerButtonClick обрабатывает нажатие на кнопку ответа.
     void HandleAnswerButtonClick(string answer)
     {
         questionAsker.Show(false);
@@ -75,6 +91,7 @@ public class Quiz : MonoBehaviour
         }
     }
 
+    // Метод HandleDialogButtonClick обрабатывает нажатие кнопки в диалоговом окне.
     void HandleDialogButtonClick(bool state)
     {
         ResetQuiz();
@@ -85,6 +102,7 @@ public class Quiz : MonoBehaviour
         timerDisplay.SetActive(true);
     }
 
+    // Метод ResetQuiz сбрасывает викторину и загружает новый вопрос.
     void ResetQuiz()
     {
         if (questionCount >= 5)

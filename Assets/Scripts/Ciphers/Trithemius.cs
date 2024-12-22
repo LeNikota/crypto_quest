@@ -1,3 +1,13 @@
+/*
+Этот файл содержит реализацию шифра Тритемия для русского алфавита.
+Класс Trithemius предоставляет методы для шифрования и дешифрования строк с использованием различных функций сдвига.
+Методы:
+- Encrypt: шифрует входное сообщение, применяя функцию сдвига к каждой букве в зависимости от её позиции.
+- Decrypt: дешифрует входное сообщение, применяя обратную функцию сдвига к каждой букве.
+- GetKeys: возвращает заданное количество уникальных функций сдвига из предопределенного набора.
+- GetShiftFunction: возвращает функцию сдвига по заданному ключу, если она существует.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +16,7 @@ using Unity;
 
 static class Trithemius
 {
+    // Словарь функций сдвига
     private static Dictionary<string, Func<int, int>> shiftFunctions = new()
     {
         {"2k + 1", k => 2 * k + 1},
@@ -30,8 +41,10 @@ static class Trithemius
         {"k^2 + 5k", k => k * k + 5 * k},
         {"k * (k + 2)", k => k * (k + 2)},
     };
+    // Алфавит для шифрования
     private static char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
 
+    // Метод для шифрования сообщения
     public static string Encrypt(string message, Func<int, int> shiftFunc)
     {
         string encryptedMessage = "";
@@ -59,6 +72,7 @@ static class Trithemius
         return encryptedMessage;
     }
 
+    // Метод для дешифрования сообщения
     public static string Decrypt(string message, Func<int, int> shiftFunc)
     {
         string decryptedMessage = "";
@@ -85,7 +99,8 @@ static class Trithemius
 
         return decryptedMessage;
     }
-
+    
+    // Метод для получения уникальных функций сдвига
     public static Dictionary<string, Func<int, int>> GetKeys(int amount)
     {
         if(amount > shiftFunctions.Count)
@@ -110,7 +125,8 @@ static class Trithemius
 
         return selectedKeys;
     }
-
+    
+    // Метод для получения уникальных функций сдвига
     public static Func<int, int> GetShiftFunction(string key)
     {
         if (shiftFunctions.TryGetValue(key, out var shiftFunction))
