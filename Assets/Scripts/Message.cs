@@ -1,9 +1,12 @@
+// Класс Messages содержит статические методы для получения случайных сообщений и уникальных слов.
+
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
 public static class Messages
 {
+    // Массив сообщений
     private static string[] messages = {
         "Дошел шестой легион.",
         "Враг на подходе, готовьтесь к бою!",
@@ -62,6 +65,7 @@ public static class Messages
         "Мы не отступим, пока не добьемся успеха."
     };
 
+    // Массив слов
     private static string[] words = {
         "Сила",
         "Мудрость",
@@ -100,11 +104,13 @@ public static class Messages
         "Эволюция"
     };
 
+    // Метод Get возвращает случайное сообщение из массива messages.
     public static string Get()
     {
         return messages[Random.Range(0, messages.Length)];
     }
 
+    // Метод GetWords возвращает список уникальных слов заданного количества из массива words.
     public static List<string> GetWords(int amount){
         if(words.Length < amount)
             return new();

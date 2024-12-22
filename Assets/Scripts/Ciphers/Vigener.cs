@@ -1,10 +1,20 @@
+/*
+Этот файл содержит реализацию шифра Виженера для русского алфавита.
+Класс Vigenere предоставляет методы для шифрования и дешифрования строк с использованием ключевого слова.
+Методы:
+- Encrypt: шифрует входное сообщение, используя ключевое слово для определения сдвига каждой буквы.
+- Decrypt: дешифрует входное сообщение, используя ключевое слово для определения сдвига каждой буквы.
+*/
+
 using System;
 using UnityEngine;
 
 public class Vigenere : MonoBehaviour
 {
+    // Алфавит для шифрования
     private static char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
 
+    // Метод для шифрования сообщения
     public static string Encrypt(string message, string keyword)
     {
         string encryptedMessage = "";
@@ -33,6 +43,7 @@ public class Vigenere : MonoBehaviour
         return encryptedMessage;
     }
 
+    // Метод для дешифрования сообщения
     public static string Decrypt(string message, string keyword)
     {
         string decryptedMessage = "";

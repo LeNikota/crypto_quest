@@ -1,22 +1,29 @@
+// Класс ToolsLogic управляет логикой инструментов шифрования и дешифрования, взаимодействуя с пользовательским интерфейсом.
+
 using System;
 using UnityEngine;
 
 
 class ToolsLogic : MonoBehaviour
 {
+    // Поле для пользовательского интерфейса инструментов.
     [SerializeField] ToolsUI toolsUI;
 
+    // Действие, представляющее выбранный инструмент.
     Action selectedTool = null;
 
+    // Переменные для хранения текста и ключа.
     string text;
     string key;
 
+    // Метод Start инициализирует обработчики событий для кнопок и изменения значений.
     void Start()
     {
         toolsUI.CypherButtonClickHandler = HandelCypherButtonClick;
         toolsUI.ValueChangedHandler = HandleValueChanged;
     }
 
+    // Метод HandelCypherButtonClick обрабатывает нажатие кнопки шифрования и устанавливает выбранный инструмент.
     void HandelCypherButtonClick(string cypher)
     {
         switch (cypher)
@@ -42,6 +49,7 @@ class ToolsLogic : MonoBehaviour
         }
     }
 
+    // Метод HandleValueChanged обрабатывает изменения входных данных и вызывает выбранный инструмент.
     void HandleValueChanged(string input, string type)
     {
         if (type == "text") text = input;

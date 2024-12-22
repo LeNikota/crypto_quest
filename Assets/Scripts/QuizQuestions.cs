@@ -1,11 +1,12 @@
+// Класс QuizQuestions управляет вопросами викторины, включая их хранение и выбор случайных вопросов.
 using System.Collections.Generic;
-using System.Linq;
 
 // using System;
 using UnityEngine;
 
 public static class QuizQuestions
 {
+    // Словарь, где ключ — вопрос, а значение — массив возможных ответов (первый ответ правильный).
     // First answer is the right one
     static Dictionary<string, string[]> questions = new()
     {
@@ -163,13 +164,16 @@ public static class QuizQuestions
             }
         };
 
+    // Словарь для хранения вопросов, которые еще не были заданы.
     static Dictionary<string, string[]> questionsNotSeen = new();
 
+    // Статический конструктор для инициализации вопросов, которые еще не были заданы.
     static QuizQuestions()
     {
         RefreshQuestionNotSeen();
     }
 
+    // Метод GetKeyAtIndex возвращает ключ вопроса по индексу.
     static string GetKeyAtIndex(int index)
     {
         int currentIndex = 0;
@@ -184,13 +188,18 @@ public static class QuizQuestions
         return null;
     }
 
-    static void RefreshQuestionNotSeen(){
-        foreach (var question in questions){
+    // Метод RefreshQuestionNotSeen обновляет список вопросов, которые еще не были заданы.
+    static void RefreshQuestionNotSeen()
+    {
+        foreach (var question in questions)
+        {
             questionsNotSeen[question.Key] = (string[])question.Value.Clone();
         }
     }
 
-    public static void Get(out string question, out string[] answers){
+    // Метод Get выбирает случайный вопрос и его ответы, а также удаляет вопрос из списка незадаваемых.
+    public static void Get(out string question, out string[] answers)
+    {
         if (questionsNotSeen.Count <= 0)
             RefreshQuestionNotSeen();
 

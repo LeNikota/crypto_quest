@@ -1,16 +1,20 @@
+// Этот класс отвечает за отображение фактов о различных методах шифрования в пользовательском интерфейсе Unity.
+// Он создает кнопки для каждого шифра и отображает соответствующий текст при нажатии на кнопку.
+
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// UI and background logic is in one file (coupled together)
 class Facts : MonoBehaviour
 {
-    [SerializeField] Transform scrollViewContentTransform;
-    [SerializeField] GameObject buttonPrefab;
-    [SerializeField] TextMeshProUGUI textDisplay;
+    [SerializeField] Transform scrollViewContentTransform; // Трансформ для содержимого прокручиваемого представления
+    [SerializeField] GameObject buttonPrefab; // Префаб кнопки для создания новых кнопок
+    [SerializeField] TextMeshProUGUI textDisplay; // Текстовое поле для отображения фактов
 
-    // UI and background logic is in one file (coupled together)
+    // Словарь, содержащий названия шифров и соответствующие факты
     Dictionary<string, string> facts = new()
     {
         {"Морзе", @"
@@ -120,6 +124,7 @@ class Facts : MonoBehaviour
         "},
     };
 
+    // Метод Start вызывается при инициализации объекта. Он очищает текстовое поле и создает кнопки для каждого шифра.
     void Start()
     {
         textDisplay.text = "";
@@ -130,6 +135,7 @@ class Facts : MonoBehaviour
         }
     }
 
+    // Метод AddButton создает кнопку с заданным текстом и назначает ей действие при нажатии.
     void AddButton(string buttonText, string text)
     {
         GameObject button = Instantiate(buttonPrefab, scrollViewContentTransform);
